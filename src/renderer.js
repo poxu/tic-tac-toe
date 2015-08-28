@@ -8,6 +8,23 @@ var Renderer = (function() {
         var q = 35/100;
         var innerOffset = Math.floor(len * q);
         var innerLen = len - innerOffset * 2;
+        var renderRoundedRect = function(size, radius) {
+            var width = len;
+            var height = len;
+
+            ctx.beginPath();
+            ctx.moveTo(radius, 0);
+            ctx.lineTo(width - radius, 0);
+            ctx.quadraticCurveTo(width, 0, width, radius);
+            ctx.lineTo(width, height - radius);
+            ctx.quadraticCurveTo(width, height, width - radius, height);
+            ctx.lineTo(radius, height);
+            ctx.quadraticCurveTo(0, height, 0,height - radius);
+            ctx.lineTo(0, radius);
+            ctx.quadraticCurveTo(0, 0, radius, 0);
+            ctx.closePath();
+            ctx.fill();
+        };
 
         var renderSpace = function(space, content) {
             var row = space[0];
@@ -19,22 +36,10 @@ var Renderer = (function() {
 
             var width = len;
             var height = len;
-            var x = 0
-            var y = 0;
             var radius = 5;
 
-            ctx.beginPath();
-            ctx.moveTo(x + radius, y);
-            ctx.lineTo(x + width - radius, y);
-            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-            ctx.lineTo(x + width, y + height - radius);
-            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-            ctx.lineTo(x + radius, y + height);
-            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-            ctx.lineTo(x, y + radius);
-            ctx.quadraticCurveTo(x, y, x + radius, y);
-            ctx.closePath();
-            ctx.fill();
+            renderRoundedRect(len, radius);
+
 
             ctx.restore();
             ctx.save();
