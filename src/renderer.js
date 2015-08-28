@@ -2,8 +2,8 @@ var Renderer = (function() {
     return function(ctx) {
         var ren = {};
 
-        var len = 50;
-        var margin = 10;
+        var len = 100;
+        var margin = 15;
 
         var q = 35/100;
         var innerOffset = Math.floor(len * q);
@@ -39,11 +39,7 @@ var Renderer = (function() {
                 ctx.fill();
             }
 
-
-
             ctx.restore();
-
-
         }
 
         ren.render = function(scene) {
@@ -52,7 +48,7 @@ var Renderer = (function() {
 
             ctx.save();
             ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, 180, 180);
+            ctx.fillRect(0, 0, 345, 345);
             ctx.restore();
 
             for(var row = 0; row < rows; ++row) {
