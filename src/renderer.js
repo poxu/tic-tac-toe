@@ -31,6 +31,7 @@ var Renderer = (function() {
 
             if (content === 1 || content === 11) {
                 ctx.translate(len / 2, len / 2);
+                ctx.rotate(Math.PI / 4);
                 ctx.fillRect(-innerLen / 2, -innerLen / 2, innerLen , innerLen );    
             }
             else if (content === 2 || content === 22) {
