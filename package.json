@@ -1,0 +1,12 @@
+{
+    "name": "js-cz",
+    "devDependencies": {
+        "jshint": "latest",
+        "mocha": "latest",
+        "expect.js" : "latest"
+    },
+    "scripts": {
+        "lint": "jshint src/counter.js",
+        "test": "mocha"
+    }
+}

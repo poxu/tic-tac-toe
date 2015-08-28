@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <script type="text/javascript" src="src/renderer.js"></script>
+        <script type="text/javascript" src="src/TicTacToe.js"></script>
+        <script type="text/javascript" src="src/util.js"></script>
+        <script type="text/javascript">
+            window.addEventListener('load', function() {
+                var canvas = document.querySelector('canvas.viewport');
+                var ctx = canvas.getContext('2d');
+                var renderer = Renderer(ctx);
+                var screenToWorld = util.getScreenToWorld(50, 10)
+
+                var game = TicTacToe();
+
+                renderer.render(game.getField());
+
+                canvas.addEventListener('mouseup', function(e) {
+                    var coord = {
+                        x : e.pageX - canvas.offsetLeft,
+                        y : e.pageY - canvas.offsetTop
+                    };
+
+                    var space = screenToWorld(coord.x, coord.y);
+
+
+                    if (space !== null) {
+                        var row = space[0];
+                        var col = space[1];
+
+                        game.put([row, col]);
+                    }
+
+                    renderer.render(game.getField());
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <canvas class="viewport" width="180" height="180"></canvas>
+    </body>
+</html>
+
