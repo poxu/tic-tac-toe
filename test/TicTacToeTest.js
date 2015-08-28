@@ -73,16 +73,21 @@ describe('TicTacToe', function() {
         });
 
 
-        it('should notice if player won after call', function() {
+        it('should put 11 or 22 through winning line', function() {
             winCross(game);
 
             var expectedField = [
-                [1, 2, 2],
-                [0, 1, 0],
-                [0, 0, 1]
+                [11, 2, 2],
+                [0, 11, 0],
+                [0, 0, 11]
             ];
 
             expect(game.getField()).to.be.eql(expectedField);
+        });
+
+        it('should notice if player won after call', function() {
+            winCross(game);
+
             expect(game.isOver()).to.be.equal(true);
         });
 
@@ -92,9 +97,9 @@ describe('TicTacToe', function() {
             game.put([2,0]);
 
             var expectedField = [
-                [1, 2, 2],
-                [0, 1, 0],
-                [0, 0, 1]
+                [11, 2, 2],
+                [0, 11, 0],
+                [0, 0, 11]
             ];
 
             expect(game.getField()).to.be.eql(expectedField);

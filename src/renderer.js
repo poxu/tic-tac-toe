@@ -19,6 +19,12 @@ var Renderer = (function() {
             else if (content === 2) {
                 ctx.fillStyle = 'red';
             }
+            else if (content === 22) {
+                ctx.fillStyle = 'pink';
+            }
+            else if (content === 11) {
+                ctx.fillStyle = 'lightgreen';
+            }
 
             ctx.fillRect(col*(len + margin), row*(len + margin), len, len);    
             ctx.restore();

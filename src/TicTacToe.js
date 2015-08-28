@@ -64,23 +64,46 @@ var TicTacToe = (function() {
                 return true;
             }
 
-            gameOver = lines.some(function(line) {
+            var winningLine = null;
+
+            lines.forEach(function(line) {
                 var row = line[0][0];
                 var col = line[0][1];
 
                 var player = field[row][col];
 
+                var isWinning = false;
+                
                 if (player === 0) {
-                    return false;
+                    return;
                 }
 
-                return line.every(function(space) {
+                isWinning = line.every(function(space) {
                     var row = space[0];
                     var col = space[1];
 
                     return player === field[row][col];
                 });
+
+                if (isWinning) {
+                    gameOver = true;
+                    winningLine = line;
+                }
             });
+
+            if (winningLine !== null) {
+                winningLine.forEach(function(space) {
+                    var row = space[0];
+                    var col = space[1];
+
+                    if (player === 1) {
+                        field[row][col] = 11;
+                    }
+                    else {
+                        field[row][col] = 22;
+                    }
+                });
+            }
 
             return gameOver;
         };
