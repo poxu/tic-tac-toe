@@ -8,12 +8,35 @@ describe('TicTacToe', function() {
         game = TicTacToe();
     });
 
+    var drawGame = function(game) {
+
+        game.put([1, 1]);
+        game.put([0, 1]);
+        game.put([0, 2]);
+        game.put([0, 0]);
+        game.put([1, 0]);
+        game.put([2, 0]);
+        game.put([2, 1]);
+        game.put([1, 2]);
+        game.put([2, 2]);
+
+    };
+
+    var winCross = function(game) {
+        game.put([0,0]);
+        game.put([0,1]);
+        game.put([1,1]);
+        game.put([0,2]);
+        game.put([2,2]);
+    };
+
     describe('#constructor', function() {
         it('should create object', function() {
             expect(game).to.be.ok();
         });
 
         it('should build empty game field', function() {
+
             var expectedField = [
                 [0, 0, 0],
                 [0, 0, 0],
@@ -29,20 +52,13 @@ describe('TicTacToe', function() {
     });
 
     describe('#put', function() {
-        var winCross = function(game) {
-            game.put([0,0]);
-            game.put([0,1]);
-            game.put([1,1]);
-            game.put([0,2]);
-            game.put([2,2]);
-        };
-
         it('should change field when called', function() {
-            game.put([1,1]);
+            drawGame(game);
+
             var expectedField = [
-                [0, 0, 0],
-                [0, 1, 0],
-                [0, 0, 0]
+                [2, 2, 1],
+                [1, 1, 2],
+                [2, 1, 1]
             ];
 
             expect(game.getField()).to.be.eql(expectedField);
@@ -85,11 +101,6 @@ describe('TicTacToe', function() {
             expect(game.getField()).to.be.eql(expectedField);
         });
 
-        it('should notice if player won after call', function() {
-            winCross(game);
-
-            expect(game.isOver()).to.be.equal(true);
-        });
 
         it('should not do anyting if game is over', function() {
             winCross(game);
@@ -106,11 +117,27 @@ describe('TicTacToe', function() {
             expect(game.getPlayer()).to.be.eql(1);
         });
 
-        it('should not define which player won', function() {
+    });
+
+    describe('#gameOver', function() {
+        it('should detect that game is a draw', function() {
+            drawGame(game);
+
+            expect(game.isOver()).to.be.eql(true);
+        });
+
+        it('should notice if player won', function() {
+            winCross(game);
+
+            expect(game.isOver()).to.be.equal(true);
+        });
+    });
+
+    describe('#getWinner', function() {
+        it('should define which player won', function() {
             winCross(game);
 
             expect(game.getWinner()).to.be.eql(1);
         });
-
     });
 });

@@ -104,6 +104,17 @@ var TicTacToe = (function() {
                     }
                 });
             }
+            else {
+                var isDraw = field.every(function(line) {
+                    return line.every(function(spaceContent) {
+                        return spaceContent !== 0;
+                    });
+                });
+
+                if (isDraw) {
+                    gameOver = true;
+                }
+            }
 
             return gameOver;
         };
