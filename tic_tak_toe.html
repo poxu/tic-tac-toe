@@ -40,6 +40,10 @@
                         var row = space[0];
                         var col = space[1];
 
+                        if (game.getField()[row][col] !== 0) {
+                            return;
+                        }
+
                         game.put([row, col]);
 
                         if (!game.isOver()) {
