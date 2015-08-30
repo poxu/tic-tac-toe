@@ -24,6 +24,72 @@ var TicTacToe = (function() {
             [[2,0], [1,1], [0,2]]
         ];
 
+
+        var isDraw = function() {
+            return field.every(function(line) {
+                return line.every(function(spaceContent) {
+                    return spaceContent !== 0;
+                });
+            });
+        };
+
+        var populateLine = function(line, value) {
+            line.forEach(function(space) {
+                var row = space[0];
+                var col = space[1];
+
+                field[row][col] = value;
+            });
+        };
+
+        var getWinningLine = function() {
+            var winningLine = null;
+
+            lines.forEach(function(line) {
+                var row = line[0][0];
+                var col = line[0][1];
+
+                var player = field[row][col];
+
+                var isWinning = false;
+                
+                if (player === 0) {
+                    return;
+                }
+
+                isWinning = line.every(function(space) {
+                    var row = space[0];
+                    var col = space[1];
+
+                    return player === field[row][col];
+                });
+
+                if (isWinning) {
+                    winningLine = line;
+                }
+            });
+
+            return winningLine;
+        };
+
+        var getWinningMark = function(player) {
+            if (player === 1) {
+                return 11;
+            }
+            else {
+                return 22;
+            }
+        };
+
+        var switchPlayer = function() {
+            if (player === 1) {
+                player = 2;
+            }
+            else {
+                player = 1;
+            }
+        };
+
         that.getField = function() {
             return field;
         };
@@ -51,12 +117,7 @@ var TicTacToe = (function() {
                 return;
             }
 
-            if (player === 1) {
-                player = 2;
-            }
-            else {
-                player = 1;
-            }
+            switchPlayer();
         };
 
         that.isOver = function() {
@@ -64,56 +125,15 @@ var TicTacToe = (function() {
                 return true;
             }
 
-            var winningLine = null;
-
-            lines.forEach(function(line) {
-                var row = line[0][0];
-                var col = line[0][1];
-
-                var player = field[row][col];
-
-                var isWinning = false;
-                
-                if (player === 0) {
-                    return;
-                }
-
-                isWinning = line.every(function(space) {
-                    var row = space[0];
-                    var col = space[1];
-
-                    return player === field[row][col];
-                });
-
-                if (isWinning) {
-                    gameOver = true;
-                    winningLine = line;
-                }
-            });
+            var winningLine = getWinningLine();
 
             if (winningLine !== null) {
-                winningLine.forEach(function(space) {
-                    var row = space[0];
-                    var col = space[1];
+                gameOver = true;
 
-                    if (player === 1) {
-                        field[row][col] = 11;
-                    }
-                    else {
-                        field[row][col] = 22;
-                    }
-                });
+                populateLine(winningLine, getWinningMark(player));
             }
-            else {
-                var isDraw = field.every(function(line) {
-                    return line.every(function(spaceContent) {
-                        return spaceContent !== 0;
-                    });
-                });
-
-                if (isDraw) {
-                    gameOver = true;
-                }
+            else if (isDraw()){
+                gameOver = true;
             }
 
             return gameOver;
