@@ -2,6 +2,7 @@
     <head>
         <script type="text/javascript" src="src/renderer.js"></script>
         <script type="text/javascript" src="src/TicTacToe.js"></script>
+        <script type="text/javascript" src="src/RandomAI.js"></script>
         <script type="text/javascript" src="src/util.js"></script>
         <script type="text/javascript">
             window.addEventListener('load', function() {
@@ -11,6 +12,7 @@
                 var screenToWorld = util.getScreenToWorld(100, 15)
 
                 var game = TicTacToe();
+                var ai = RandomAI();
 
                 var button = document.querySelector("button.restart");
                 button.addEventListener('click', function() {
@@ -38,13 +40,17 @@
                         var col = space[1];
 
                         game.put([row, col]);
-                    }
 
-                    if (game.isOver()) {
-                        button.style.visibility = 'visible';
-                    }
+                        if (!game.isOver()) {
+                            ai.move(game);
+                        };
+
+                        if (game.isOver()) {
+                            button.style.visibility = 'visible';
+                        }
 
                     renderer.render(game.getField());
+                    }
                 });
 
             });
