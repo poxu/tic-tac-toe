@@ -131,6 +131,24 @@ describe('TicTacToe', function() {
 
             expect(game.isOver()).to.be.equal(true);
         });
+
+        it('should not think game is over in this particular situation', function() {
+            //winCross(game);
+            game.put([2, 0]);
+            game.put([0, 0]);
+            game.put([1, 0]);
+
+            game.put([2, 1]);
+            game.put([1, 1]);
+
+
+            game.put([0, 2]);
+            game.put([2, 2]);
+            game.put([1, 2]);
+
+
+            expect(game.isOver()).to.be.equal(false);
+        });
     });
 
     describe('#getWinner', function() {
@@ -138,6 +156,38 @@ describe('TicTacToe', function() {
             winCross(game);
 
             expect(game.getWinner()).to.be.eql(1);
+        });
+    });
+
+    describe('#getMoves', function() {
+        it('should return all moves', function() {
+            game.put([2, 0]);
+            game.put([0, 0]);
+            game.put([1, 0]);
+
+            game.put([2, 1]);
+            game.put([1, 1]);
+
+
+            game.put([0, 2]);
+            game.put([2, 2]);
+            game.put([1, 2]);
+
+            var expectedMoves = [
+                [2, 0],
+                [0, 0],
+                [1, 0],
+
+                [2, 1],
+                [1, 1],
+
+
+                [0, 2],
+                [2, 2],
+                [1, 2],
+            ];
+
+            expect(game.getMoves()).to.be.eql(expectedMoves);
         });
     });
 });

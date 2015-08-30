@@ -5,13 +5,14 @@
         <script type="text/javascript" src="src/RandomAI.js"></script>
         <script type="text/javascript" src="src/util.js"></script>
         <script type="text/javascript">
+            var game = null;
             window.addEventListener('load', function() {
                 var canvas = document.querySelector('canvas.viewport');
                 var ctx = canvas.getContext('2d');
                 var renderer = Renderer(ctx);
                 var screenToWorld = util.getScreenToWorld(100, 15)
 
-                var game = TicTacToe();
+                game = TicTacToe();
                 var ai = RandomAI();
 
                 var button = document.querySelector("button.restart");
@@ -49,7 +50,7 @@
                             button.style.visibility = 'visible';
                         }
 
-                    renderer.render(game.getField());
+                        renderer.render(game.getField());
                     }
                 });
 

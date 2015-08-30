@@ -10,6 +10,7 @@ var TicTacToe = (function() {
         var player = 1;
         var gameOver = false;
         var winner = 0;
+        var moves = [];
 
         var lines = [
             [[0,0], [0,1], [0,2]],
@@ -112,6 +113,8 @@ var TicTacToe = (function() {
 
             field[row][col] = player;
 
+            moves.push([row, col]);
+
             if (that.isOver()) {
                 winner = player;
                 return;
@@ -142,6 +145,10 @@ var TicTacToe = (function() {
         that.getWinner = function() {
             return winner;
         }
+
+        that.getMoves = function() {
+            return moves;
+        };
 
 
         return that;
