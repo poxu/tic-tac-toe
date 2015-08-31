@@ -27,7 +27,12 @@
 
                 renderer.render(game.getField());
 
+                var interfaceDisabled = false;
                 canvas.addEventListener('mouseup', function(e) {
+                    if (interfaceDisabled) {
+                        return;
+                    }
+
                     var coord = {
                         x : e.pageX - canvas.offsetLeft,
                         y : e.pageY - canvas.offsetTop
@@ -47,7 +52,16 @@
                         game.put([row, col]);
 
                         if (!game.isOver()) {
-                            ai.move(game);
+                            interfaceDisabled = true;
+                            setTimeout(function() {
+                                ai.move(game);
+                                if (game.isOver()) {
+                                    button.style.visibility = 'visible';
+                                }
+
+                                renderer.render(game.getField());
+                                interfaceDisabled = false;
+                            }, 1000);
                         };
 
                         if (game.isOver()) {
