@@ -64,7 +64,7 @@
                             setTimeout(function() {
                                 ai.move(game);
                                 if (game.isOver()) {
-                                    button.style.visibility = 'visible';
+                                    //button.style.visibility = 'visible';
                                 }
 
                                 renderer.render(game.getField());
@@ -73,8 +73,7 @@
                         };
 
                         if (game.isOver()) {
-                            button.style.visibility = 'hidden';
-
+                            //button.style.visibility = 'visible';
                         }
 
                         renderer.render(game.getField());
