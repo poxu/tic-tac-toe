@@ -29,6 +29,14 @@
 
                 var interfaceDisabled = false;
                 canvas.addEventListener('mouseup', function(e) {
+
+                    if (game.isOver()) {
+                        game = TicTacToe();
+                        renderer.render(game.getField());
+                        button.style.visibility = 'hidden';
+                        return;
+
+                    }
                     if (interfaceDisabled) {
                         return;
                     }
@@ -65,7 +73,8 @@
                         };
 
                         if (game.isOver()) {
-                            button.style.visibility = 'visible';
+                            button.style.visibility = 'hidden';
+
                         }
 
                         renderer.render(game.getField());
