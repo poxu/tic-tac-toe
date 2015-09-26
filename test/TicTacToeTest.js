@@ -27,7 +27,7 @@ describe('TicTacToe', function() {
         game.put([0,1]);
         game.put([1,1]);
         game.put([0,2]);
-        game.put([2,2]);
+        return game.put([2,2]);
     };
 
     describe('#constructor', function() {
@@ -117,6 +117,44 @@ describe('TicTacToe', function() {
             expect(game.getPlayer()).to.be.eql(1);
         });
 
+        it('should return action made', function() {
+            var action = game.put([1,0]);
+
+            var expected = {
+                space: [1,0],
+                token: 1,
+                result: 'ongoing'
+            };
+
+            expect(expected).to.be.eql(action.get());
+            expect(action.isEmpty()).to.be.equal(false);
+        });
+
+        it('should return empty action after trying to put token to occupied field', function() {
+            
+            game.put([1,0]);
+
+            var action = game.put([1,0]);
+
+            expect(action.isEmpty()).to.be.equal(true);
+        });
+
+        it('should return empty action after game is over', function() {
+            winCross(game);
+
+            var action = game.put([1,0]);
+
+            expect(action.isEmpty()).to.be.equal(true);
+        });
+
+        it('should return victory action for last move and inform about the victor', function() {
+            var action = winCross(game);
+
+
+            expect(action.isEmpty()).to.be.equal(false);
+            expect(action.get().result).to.be.equal('victory');
+            expect(action.get().victor).to.be.equal(1);
+        });
     });
 
     describe('#gameOver', function() {

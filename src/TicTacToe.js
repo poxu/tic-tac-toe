@@ -1,4 +1,8 @@
+if (typeof require !== 'undefined') {
+    Action = require('../src/Action.js').Action;
+}
 var TicTacToe = (function() {
+
     return function() {
         var that = {};
         var field = [
@@ -101,26 +105,40 @@ var TicTacToe = (function() {
 
         that.put = function(space) {
             if (that.isOver()) {
-                return;
+                return Action.empty();
             }
 
             var row = space[0];
             var col = space[1];
 
             if (field[row][col] !== 0) {
-                return;
+                return Action.empty();
             }
 
             field[row][col] = player;
 
             moves.push([row, col]);
 
+            var lastPlayer = player;
+
             if (that.isOver()) {
                 winner = player;
-                return;
+                return Action({
+                    space: space,
+                    token: lastPlayer,
+                    result: 'victory',
+                    victor: lastPlayer
+                });
             }
 
+
             switchPlayer();
+
+            return Action({
+                space: space,
+                token: lastPlayer,
+                result: 'ongoing'
+            });
         };
 
         that.isOver = function() {

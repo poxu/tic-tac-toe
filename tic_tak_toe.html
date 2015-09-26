@@ -1,6 +1,7 @@
 <html>
     <head>
         <script type="text/javascript" src="src/renderer.js"></script>
+        <script type="text/javascript" src="src/Action.js"></script>
         <script type="text/javascript" src="src/TicTacToe.js"></script>
         <script type="text/javascript" src="src/RandomAI.js"></script>
         <script type="text/javascript" src="src/util.js"></script>
@@ -15,25 +16,15 @@
                 game = TicTacToe();
                 var ai = RandomAI();
 
-                var button = document.querySelector("button.restart");
-                button.addEventListener('click', function() {
-                    game = TicTacToe();
-                    renderer.render(game.getField());
-                    button.style.visibility = 'hidden';
-                });
 
-                button.style.visibility = 'hidden';
-                
-
-                renderer.render(game.getField());
+                renderer.render(game);
 
                 var interfaceDisabled = false;
                 canvas.addEventListener('mouseup', function(e) {
 
                     if (game.isOver()) {
                         game = TicTacToe();
-                        renderer.render(game.getField());
-                        button.style.visibility = 'hidden';
+                        renderer.render(game);
                         return;
 
                     }
@@ -57,28 +48,61 @@
                             return;
                         }
 
-                        game.put([row, col]);
+                        var action = game.put([row, col]);
+
+                        if(action.isPresent()) {
+                            renderer.actions[row][col] = 0;
+                        }
 
                         if (!game.isOver()) {
                             interfaceDisabled = true;
                             setTimeout(function() {
-                                ai.move(game);
-                                if (game.isOver()) {
-                                    //button.style.visibility = 'visible';
+                                var action = ai.move(game);
+
+                                if(action.isPresent()) {
+                                    var row = action.get().space[0];
+                                    var col = action.get().space[1];
+                                    renderer.actions[row][col] = 0;
                                 }
 
-                                renderer.render(game.getField());
+                                renderer.render(game);
                                 interfaceDisabled = false;
                             }, 300);
                         };
 
-                        if (game.isOver()) {
-                            //button.style.visibility = 'visible';
-                        }
-
-                        renderer.render(game.getField());
+                        renderer.render(game);
                     }
                 });
+
+                var direction = -1;
+
+
+                var lastTime = new Date().getTime();
+                var render = function() {
+                    var currTime = new Date().getTime();
+                    var delta = currTime - lastTime;
+
+                    renderer.actions.forEach(function(line, row) {
+                        line.forEach(function(space, col) {
+                            if(space == null) {
+                                return;
+                            }
+
+                            if(space > 300) {
+                                renderer.actions[row][col] = null;
+                            }
+                            else {
+                                renderer.actions[row][col] += delta;
+                            }
+                        });
+                    });
+
+                    renderer.render(game);
+                    window.requestAnimationFrame(render);
+                    lastTime = currTime;
+                };
+
+                window.requestAnimationFrame(render);
 
             });
         </script>
@@ -93,7 +117,6 @@
     </head>
 	<body class="flex-container">
         <canvas class="viewport" width="345" height="345"></canvas>
-        <button class="restart">Restart</button>
     </body>
 </html>
 

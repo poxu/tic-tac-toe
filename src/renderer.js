@@ -38,6 +38,18 @@ var Renderer = (function() {
             var height = len;
             var radius = 5;
 
+            var time = ren.actions[row][col];
+
+            if (time !== null) {
+                time = time/300;
+            }
+            else {
+                time = 1;
+            }
+
+
+            var inLen = innerLen*time;
+
             renderRoundedRect(len, radius);
 
 
@@ -55,18 +67,25 @@ var Renderer = (function() {
             if (content === 1 || content === 11) {
                 ctx.translate(len / 2, len / 2);
                 ctx.rotate(Math.PI / 4);
-                ctx.fillRect(-innerLen / 2, -innerLen / 2, innerLen , innerLen );    
+                ctx.fillRect(-inLen / 2, -inLen / 2, inLen , inLen );    
             }
             else if (content === 2 || content === 22) {
                 ctx.beginPath();
-                ctx.arc(len / 2, len / 2, innerLen / 2, 0, 2 * Math.PI, false);
+                ctx.arc(len / 2, len / 2, inLen / 2, 0, 2 * Math.PI, false);
                 ctx.fill();
             }
 
             ctx.restore();
         }
 
-        ren.render = function(scene) {
+        ren.actions = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null]
+        ];
+
+        ren.render = function(game) {
+            var scene = game.getField();
             var rows = scene.length;
             var cols = scene[0].length;
 

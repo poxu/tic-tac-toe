@@ -37,7 +37,7 @@ var RandomAI = (function() {
 
             shuffle(emptySpaces);
 
-            game.put(emptySpaces.pop());
+            return game.put(emptySpaces.pop());
         };
 
         return that;
