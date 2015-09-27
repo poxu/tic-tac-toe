@@ -125,7 +125,7 @@
                     });
 
                     var actionDelta = currTime - lastActionMade;
-                    if (actions.length !== 0 && actionDelta > 1000) {
+                    if (actions.length !== 0 && actionDelta > 500) {
                         var action = actions.shift();
 
                         if (action.isPresent()) {
@@ -137,7 +137,7 @@
                             field[row][col] = token;
 
                             renderer.actions[row][col] = Animation({
-                                length : 500,
+                                length : 200,
                                 onEnd: function() {
                                     if (result == 'victory') {
                                         game.getField().forEach(function(line, row) {
