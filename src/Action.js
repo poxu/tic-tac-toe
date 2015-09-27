@@ -1,6 +1,6 @@
 var Action = (function() {
     var Action = function(inValue) {
-        self = {};
+        var self = {};
 
         var clone = function(value) {
             var result =  {

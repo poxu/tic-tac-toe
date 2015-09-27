@@ -38,13 +38,11 @@ var Renderer = (function() {
             var height = len;
             var radius = 5;
 
-            var time = ren.actions[row][col];
+            var animation = ren.actions[row][col];
+            var time = 1;
 
-            if (time !== null) {
-                time = time/300;
-            }
-            else {
-                time = 1;
+            if (animation !== null) {
+                time = 1 - animation.getPercentage();
             }
 
 
@@ -85,7 +83,7 @@ var Renderer = (function() {
         ];
 
         ren.render = function(game) {
-            var scene = game.getField();
+            var scene = game;
             var rows = scene.length;
             var cols = scene[0].length;
 

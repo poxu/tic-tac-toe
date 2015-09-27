@@ -2,11 +2,28 @@
     <head>
         <script type="text/javascript" src="src/renderer.js"></script>
         <script type="text/javascript" src="src/Action.js"></script>
+        <script type="text/javascript" src="src/Animation.js"></script>
         <script type="text/javascript" src="src/TicTacToe.js"></script>
         <script type="text/javascript" src="src/RandomAI.js"></script>
         <script type="text/javascript" src="src/util.js"></script>
         <script type="text/javascript">
             var game = null;
+            var actions = [];
+            var field = [
+                [0, 0 ,0],
+                [0, 0 ,0],
+                [0, 0 ,0]
+            ];
+
+            var resetField = function() {
+                field = [
+                    [0, 0 ,0],
+                    [0, 0 ,0],
+                    [0, 0 ,0]
+                ];
+
+            };
+
             window.addEventListener('load', function() {
                 var canvas = document.querySelector('canvas.viewport');
                 var ctx = canvas.getContext('2d');
@@ -17,14 +34,15 @@
                 var ai = RandomAI();
 
 
-                renderer.render(game);
+                renderer.render(field);
 
                 var interfaceDisabled = false;
                 canvas.addEventListener('mouseup', function(e) {
 
                     if (game.isOver()) {
                         game = TicTacToe();
-                        renderer.render(game);
+                        resetField();
+                        renderer.render(field);
                         return;
 
                     }
@@ -49,28 +67,34 @@
                         }
 
                         var action = game.put([row, col]);
+                        actions.push(action);
 
+                        /*
                         if(action.isPresent()) {
                             renderer.actions[row][col] = 0;
                         }
+                        */
 
                         if (!game.isOver()) {
                             interfaceDisabled = true;
                             setTimeout(function() {
                                 var action = ai.move(game);
+                                actions.push(action);
 
+                                /*
                                 if(action.isPresent()) {
                                     var row = action.get().space[0];
                                     var col = action.get().space[1];
                                     renderer.actions[row][col] = 0;
                                 }
+                                */
 
-                                renderer.render(game);
+                                renderer.render(field);
                                 interfaceDisabled = false;
                             }, 300);
                         };
 
-                        renderer.render(game);
+                        renderer.render(field);
                     }
                 });
 
@@ -78,6 +102,7 @@
 
 
                 var lastTime = new Date().getTime();
+                var lastActionMade = lastTime;
                 var render = function() {
                     var currTime = new Date().getTime();
                     var delta = currTime - lastTime;
@@ -88,16 +113,46 @@
                                 return;
                             }
 
-                            if(space > 300) {
-                                renderer.actions[row][col] = null;
+                            var animation = space;
+                            
+                            if(animation.inProgress()) {
+                                animation.tick(delta);
                             }
                             else {
-                                renderer.actions[row][col] += delta;
+                                renderer.actions[row][col] = null;
                             }
                         });
                     });
 
-                    renderer.render(game);
+                    var actionDelta = currTime - lastActionMade;
+                    if (actions.length !== 0 && actionDelta > 1000) {
+                        var action = actions.shift();
+
+                        if (action.isPresent()) {
+                            var row = action.get().space[0];
+                            var col = action.get().space[1];
+                            var token = action.get().token;
+                            var result = action.get().result;
+
+                            field[row][col] = token;
+
+                            renderer.actions[row][col] = Animation({
+                                length : 500,
+                                onEnd: function() {
+                                    if (result == 'victory') {
+                                        game.getField().forEach(function(line, row) {
+                                            line.forEach(function(space, col) {
+                                                field[row][col] = space;
+                                            });
+                                        });
+                                    }
+                                }
+                            });
+                            lastActionMade = currTime;
+                        }
+                    }
+
+                    renderer.render(field);
                     window.requestAnimationFrame(render);
                     lastTime = currTime;
                 };
