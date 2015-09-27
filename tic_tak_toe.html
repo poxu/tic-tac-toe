@@ -69,25 +69,11 @@
                         var action = game.put([row, col]);
                         actions.push(action);
 
-                        /*
-                        if(action.isPresent()) {
-                            renderer.actions[row][col] = 0;
-                        }
-                        */
-
                         if (!game.isOver()) {
                             interfaceDisabled = true;
                             setTimeout(function() {
                                 var action = ai.move(game);
                                 actions.push(action);
-
-                                /*
-                                if(action.isPresent()) {
-                                    var row = action.get().space[0];
-                                    var col = action.get().space[1];
-                                    renderer.actions[row][col] = 0;
-                                }
-                                */
 
                                 renderer.render(field);
                                 interfaceDisabled = false;
