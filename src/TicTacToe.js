@@ -123,12 +123,19 @@ var TicTacToe = (function() {
 
             if (that.isOver()) {
                 winner = player;
-                return [Action({
-                    space: space,
-                    token: lastPlayer,
-                    result: 'victory',
-                    victor: lastPlayer
-                })];
+                return [
+                    Action({
+                        space: space,
+                        token: lastPlayer,
+                        result: 'ongoing'
+                    }),
+                    Action({
+                        space: space,
+                        token: lastPlayer,
+                        result: 'victory',
+                        victor: lastPlayer
+                    }),
+                ];
             }
 
 

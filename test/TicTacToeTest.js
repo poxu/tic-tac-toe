@@ -140,6 +140,8 @@ describe('TicTacToe', function() {
             game.put([1,0]);
 
             var actions = game.put([1,0]);
+
+            expect(actions.length).to.be.equal(1);
             var action = actions.pop();
 
             expect(action.isEmpty()).to.be.equal(true);
@@ -149,19 +151,26 @@ describe('TicTacToe', function() {
             winCross(game);
 
             var actions = game.put([1,0]);
+
+            expect(actions.length).to.be.equal(1);
             var action = actions.pop();
 
             expect(action.isEmpty()).to.be.equal(true);
         });
 
-        it('should return victory action for last move and inform about the victor', function() {
+        it('should return two actions for last move and inform about the victor', function() {
             var actions = winCross(game);
-            var action = actions.pop();
 
+            expect(actions.length).to.be.equal(2);
 
-            expect(action.isEmpty()).to.be.equal(false);
-            expect(action.get().result).to.be.equal('victory');
-            expect(action.get().victor).to.be.equal(1);
+            var moveAction = actions.shift();
+            var victoryAction = actions.shift();
+
+            expect(moveAction.isEmpty()).to.be.equal(false);
+
+            expect(victoryAction.isEmpty()).to.be.equal(false);
+            expect(victoryAction.get().result).to.be.equal('victory');
+            expect(victoryAction.get().victor).to.be.equal(1);
         });
     });
 
