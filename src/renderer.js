@@ -61,6 +61,21 @@ var Renderer = (function() {
                 ctx.fillStyle = '#8f4d4b';
             }
             
+            if (animation !== null && animation.getType() === 'color') {
+                ctx.save();
+                ctx.fillStyle = 'white';
+                if (content === 1 || content === 11) {
+                    ctx.translate(len / 2, len / 2);
+                    ctx.rotate(Math.PI / 4);
+                    ctx.fillRect(-innerLen / 2, -innerLen / 2, innerLen , innerLen );    
+                }
+                else if (content === 2 || content === 22) {
+                    ctx.beginPath();
+                    ctx.arc(len / 2, len / 2, innerLen / 2, 0, 2 * Math.PI, false);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
 
             if (content === 1 || content === 11) {
                 ctx.translate(len / 2, len / 2);

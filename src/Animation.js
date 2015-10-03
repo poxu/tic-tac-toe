@@ -5,6 +5,11 @@ var Animation = (function() {
             throw 'length is not defined';
         }
 
+        if (!options.type) {
+            throw 'type is not defined';
+        }
+
+
         var time = options.length;
         var currTime = time;
 
@@ -12,6 +17,11 @@ var Animation = (function() {
 
         if (options.onEnd) {
             onEnd = options.onEnd;
+        }
+
+        var type;
+        if (options.type) {
+            type = options.type;
         }
 
         var self = {};
@@ -34,6 +44,10 @@ var Animation = (function() {
 
         self.inProgress = function() {
             return !self.isOver();
+        };
+
+        self.getType = function() {
+            return type;
         };
 
         return self;
