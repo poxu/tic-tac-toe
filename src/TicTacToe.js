@@ -105,14 +105,14 @@ var TicTacToe = (function() {
 
         that.put = function(space) {
             if (that.isOver()) {
-                return Action.empty();
+                return [Action.empty()];
             }
 
             var row = space[0];
             var col = space[1];
 
             if (field[row][col] !== 0) {
-                return Action.empty();
+                return [Action.empty()];
             }
 
             field[row][col] = player;
@@ -123,22 +123,22 @@ var TicTacToe = (function() {
 
             if (that.isOver()) {
                 winner = player;
-                return Action({
+                return [Action({
                     space: space,
                     token: lastPlayer,
                     result: 'victory',
                     victor: lastPlayer
-                });
+                })];
             }
 
 
             switchPlayer();
 
-            return Action({
+            return [Action({
                 space: space,
                 token: lastPlayer,
                 result: 'ongoing'
-            });
+            })];
         };
 
         that.isOver = function() {

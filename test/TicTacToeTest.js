@@ -118,13 +118,18 @@ describe('TicTacToe', function() {
         });
 
         it('should return action made', function() {
-            var action = game.put([1,0]);
+            var actions = game.put([1,0]);
 
             var expected = {
                 space: [1,0],
                 token: 1,
                 result: 'ongoing'
             };
+
+
+            expect(actions.length).to.be.equal(1);
+
+            var action = actions.pop();
 
             expect(expected).to.be.eql(action.get());
             expect(action.isEmpty()).to.be.equal(false);
@@ -134,7 +139,8 @@ describe('TicTacToe', function() {
             
             game.put([1,0]);
 
-            var action = game.put([1,0]);
+            var actions = game.put([1,0]);
+            var action = actions.pop();
 
             expect(action.isEmpty()).to.be.equal(true);
         });
@@ -142,13 +148,15 @@ describe('TicTacToe', function() {
         it('should return empty action after game is over', function() {
             winCross(game);
 
-            var action = game.put([1,0]);
+            var actions = game.put([1,0]);
+            var action = actions.pop();
 
             expect(action.isEmpty()).to.be.equal(true);
         });
 
         it('should return victory action for last move and inform about the victor', function() {
-            var action = winCross(game);
+            var actions = winCross(game);
+            var action = actions.pop();
 
 
             expect(action.isEmpty()).to.be.equal(false);

@@ -67,13 +67,14 @@
                         }
 
                         var action = game.put([row, col]);
-                        actions.push(action);
+                        actions = actions.concat(action);
 
                         if (!game.isOver()) {
                             interfaceDisabled = true;
                             setTimeout(function() {
                                 var action = ai.move(game);
-                                actions.push(action);
+                                actions = actions.concat(action);
+
 
                                 renderer.render(field);
                                 interfaceDisabled = false;
