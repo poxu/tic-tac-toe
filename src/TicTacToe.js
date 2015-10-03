@@ -130,10 +130,9 @@ var TicTacToe = (function() {
                         result: 'ongoing'
                     }),
                     Action({
-                        space: space,
-                        token: lastPlayer,
                         result: 'victory',
-                        victor: lastPlayer
+                        victor: lastPlayer,
+                        victoryLine: getWinningLine()
                     }),
                 ];
             }

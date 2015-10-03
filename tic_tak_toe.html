@@ -116,25 +116,27 @@
                         var action = actions.shift();
 
                         if (action.isPresent()) {
-                            var row = action.get().space[0];
-                            var col = action.get().space[1];
-                            var token = action.get().token;
-                            var result = action.get().result;
+                            var act = action.get();
+                            var result = act.result;
 
-                            field[row][col] = token;
+                            if(result !== 'victory') {
+                                var row = act.space[0];
+                                var col = act.space[1];
+                                var token = act.token;
+                                field[row][col] = token;
 
-                            renderer.actions[row][col] = Animation({
-                                length : 200,
-                                onEnd: function() {
-                                    if (result == 'victory') {
-                                        game.getField().forEach(function(line, row) {
-                                            line.forEach(function(space, col) {
-                                                field[row][col] = space;
-                                            });
-                                        });
-                                    }
-                                }
-                            });
+                                renderer.actions[row][col] = Animation({
+                                    length : 200,
+                                    onEnd: function() {}
+                                });
+                            }
+                            else {
+                                game.getField().forEach(function(line, row) {
+                                    line.forEach(function(space, col) {
+                                        field[row][col] = space;
+                                    });
+                                });
+                            }
                             lastActionMade = currTime;
                         }
                     }

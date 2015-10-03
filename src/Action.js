@@ -3,15 +3,26 @@ var Action = (function() {
         var self = {};
 
         var clone = function(value) {
-            var result =  {
-                space: value.space,
-                token: value.token,
-                result: value.result,
+            var result =  {};
 
-            };
+            if (value.result) {
+                result.result = value.result;
+            }
+
+            if (value.space) {
+                result.space = value.space;
+            }
+
+            if (value.token) {
+                result.token = value.token;
+            }
 
             if (value.victor) {
                 result.victor = value.victor;
+            }
+
+            if (value.victoryLine) {
+                result.victoryLine = value.victoryLine;
             }
 
             return result;

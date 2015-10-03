@@ -158,7 +158,7 @@ describe('TicTacToe', function() {
             expect(action.isEmpty()).to.be.equal(true);
         });
 
-        it('should return two actions for last move and inform about the victor', function() {
+        it('should return two actions for last move and inform about the victor and victory line', function() {
             var actions = winCross(game);
 
             expect(actions.length).to.be.equal(2);
@@ -171,6 +171,9 @@ describe('TicTacToe', function() {
             expect(victoryAction.isEmpty()).to.be.equal(false);
             expect(victoryAction.get().result).to.be.equal('victory');
             expect(victoryAction.get().victor).to.be.equal(1);
+
+            expect(victoryAction.get().victoryLine).to.be.ok();
+            expect(victoryAction.get().victoryLine).to.be.eql([[0, 0], [1, 1], [2, 2]]);
         });
     });
 

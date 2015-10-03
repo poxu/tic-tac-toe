@@ -12,6 +12,17 @@ describe('Action', function() {
                 result: 'ongoing'
             });
         });
+
+        it('should not create parameters, which are not present in constructor ', function() {
+            var expected = {
+                result: 'victory',
+                victor: 1
+            };
+
+            var action = Action(expected);
+
+            expect(action.get()).to.be.eql(expected);
+        });
     });
 
     describe('#get', function() {
