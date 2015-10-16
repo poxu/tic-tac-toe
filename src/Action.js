@@ -3,27 +3,25 @@ var Action = (function() {
         var self = {};
 
         var clone = function(value) {
+            var props = [
+                'result',
+                'space',
+                'victor',
+                'token',
+                'victoryLine'
+            ];
+        
             var result =  {};
 
-            if (value.result) {
-                result.result = value.result;
-            }
+            var inProps = Object.keys(value);
 
-            if (value.space) {
-                result.space = value.space;
-            }
+            result = inProps.reduce(function(prev, curr) {
+                if (props.indexOf(curr) !== -1) {
+                    prev[curr] = value[curr];
+                }
+                return prev;
+            }, {});
 
-            if (value.token) {
-                result.token = value.token;
-            }
-
-            if (value.victor) {
-                result.victor = value.victor;
-            }
-
-            if (value.victoryLine) {
-                result.victoryLine = value.victoryLine;
-            }
 
             return result;
         };
