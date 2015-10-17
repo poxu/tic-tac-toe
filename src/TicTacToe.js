@@ -168,7 +168,7 @@ var TicTacToe = (function() {
 
         that.getWinner = function() {
             return winner;
-        }
+        };
 
         that.getMoves = function() {
             return moves;

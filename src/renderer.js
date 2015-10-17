@@ -89,7 +89,7 @@ var Renderer = (function() {
             }
 
             ctx.restore();
-        }
+        };
 
         ren.actions = [
             [null, null, null],

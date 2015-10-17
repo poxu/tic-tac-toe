@@ -6,14 +6,14 @@ var util = (function() {
             throw {
                 message : 'negative tileSize or margin are not allowed'
             };
-        };
+        }
 
         return function(x, y) {
             if (x < 0 || y < 0) {
                 throw {
                     message : 'negative coords are not allowed'
                 };
-            };
+            }
 
 
             var row = Math.floor(y/(tileSize + margin));

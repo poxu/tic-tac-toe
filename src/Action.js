@@ -27,7 +27,7 @@ var Action = (function() {
         };
 
         var value = null;
-        if (inValue != null) {
+        if (inValue !== null) {
             value = clone(inValue);
         }
 
@@ -37,7 +37,7 @@ var Action = (function() {
         };
 
         self.isEmpty = function() {
-            return value == null;
+            return value === null;
         };
 
         self.isPresent = function() {
