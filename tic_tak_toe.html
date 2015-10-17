@@ -135,17 +135,17 @@
                                 break;
 
                                 case 'victory':
-                                    var winningLine = act.victoryLine; 
+                                    var victoryLine = act.victoryLine; 
+
+                                    game.getField().forEach(function(line, row) {
+                                        line.forEach(function(space, col) {
+                                            field[row][col] = space;
+                                        });
+                                    });
 
                                     winningLine.forEach(function(space) {
                                         var row = space[0];
                                         var col = space[1];
-                                        
-                                        game.getField().forEach(function(line, row) {
-                                            line.forEach(function(space, col) {
-                                                field[row][col] = space;
-                                            });
-                                        });
 
                                         renderer.actions[row][col] = Animation({
                                             type: 'color',
