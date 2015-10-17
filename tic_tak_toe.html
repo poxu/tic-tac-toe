@@ -122,37 +122,37 @@
 
                             switch(result) {
                                 case 'ongoing':
-                                var row = act.space[0];
-                                var col = act.space[1];
-                                var token = act.token;
-                                field[row][col] = token;
-
-                                renderer.actions[row][col] = Animation({
-                                    type: 'move',
-                                    length : 200,
-                                    onEnd: function() {}
-                                });
-                                break;
-
-                                case 'victory':
-                                var winningLine = act.victoryLine; 
-
-                                winningLine.forEach(function(space) {
-                                    var row = space[0];
-                                    var col = space[1];
-                                    
-                                    game.getField().forEach(function(line, row) {
-                                        line.forEach(function(space, col) {
-                                            field[row][col] = space;
-                                        });
-                                    });
+                                    var row = act.space[0];
+                                    var col = act.space[1];
+                                    var token = act.token;
+                                    field[row][col] = token;
 
                                     renderer.actions[row][col] = Animation({
-                                        type: 'color',
+                                        type: 'move',
                                         length : 200,
                                         onEnd: function() {}
                                     });
-                                });
+                                break;
+
+                                case 'victory':
+                                    var winningLine = act.victoryLine; 
+
+                                    winningLine.forEach(function(space) {
+                                        var row = space[0];
+                                        var col = space[1];
+                                        
+                                        game.getField().forEach(function(line, row) {
+                                            line.forEach(function(space, col) {
+                                                field[row][col] = space;
+                                            });
+                                        });
+
+                                        renderer.actions[row][col] = Animation({
+                                            type: 'color',
+                                            length : 200,
+                                            onEnd: function() {}
+                                        });
+                                    });
                                 break;
 
                             }
