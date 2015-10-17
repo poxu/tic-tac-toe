@@ -7,34 +7,26 @@
         <script type="text/javascript" src="src/RandomAI.js"></script>
         <script type="text/javascript" src="src/util.js"></script>
         <script type="text/javascript">
+            var renderer;
             var game = null;
             var actions = [];
-            var field = [
-                [0, 0 ,0],
-                [0, 0 ,0],
-                [0, 0 ,0]
-            ];
+
 
             var resetField = function() {
-                field = [
-                    [0, 0 ,0],
-                    [0, 0 ,0],
-                    [0, 0 ,0]
-                ];
+                renderer.reset();
 
             };
 
             window.addEventListener('load', function() {
                 var canvas = document.querySelector('canvas.viewport');
                 var ctx = canvas.getContext('2d');
-                var renderer = Renderer(ctx);
+                renderer = Renderer(ctx);
                 var screenToWorld = util.getScreenToWorld(100, 15)
 
                 game = TicTacToe();
                 var ai = RandomAI();
 
 
-                renderer.render(field);
 
                 var interfaceDisabled = false;
                 canvas.addEventListener('mouseup', function(e) {
@@ -42,7 +34,6 @@
                     if (game.isOver()) {
                         game = TicTacToe();
                         resetField();
-                        renderer.render(field);
                         return;
 
                     }
@@ -76,12 +67,9 @@
                                 actions = actions.concat(action);
 
 
-                                renderer.render(field);
                                 interfaceDisabled = false;
                             }, 300);
                         };
-
-                        renderer.render(field);
                     }
                 });
 
@@ -116,14 +104,6 @@
                         if (action.isPresent()) {
                             var act = action.get();
 
-                            if (act.result === 'victory') {
-                                game.getField().forEach(function(line, row) {
-                                    line.forEach(function(space, col) {
-                                        field[row][col] = space;
-                                    });
-                                });
-                            }
-
                             var animations = renderer.actionToAnimations(action.get());
 
                             animations.forEach(function(animation) {
@@ -138,8 +118,8 @@
                         }
                     }
 
-                    renderer.render(field);
-                    window.requestAnimationFrame(render, 1000/60);
+                    renderer.render();
+                    window.requestAnimationFrame(render);
                     lastTime = currTime;
                 };
 

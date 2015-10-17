@@ -1,5 +1,11 @@
 var Renderer = (function() {
     return function(ctx) {
+        var safeField = [
+            [0, 0 ,0],
+            [0, 0 ,0],
+            [0, 0 ,0]
+        ];
+
         var ren = {};
 
         var len = 100;
@@ -98,7 +104,7 @@ var Renderer = (function() {
         ];
 
         ren.render = function(game) {
-            var scene = game;
+            var scene = safeField;
             var rows = scene.length;
             var cols = scene[0].length;
 
@@ -112,8 +118,14 @@ var Renderer = (function() {
                     renderSpace([row, col], scene[row][col]);
                 }
             }
+        };
 
-            
+        ren.reset = function () {
+            safeField = [
+                [0, 0 ,0],
+                [0, 0 ,0],
+                [0, 0 ,0]
+            ];
         };
 
         ren.actionToAnimations = function(act) {
@@ -124,7 +136,8 @@ var Renderer = (function() {
                     var row = act.space[0];
                     var col = act.space[1];
                     var token = act.token;
-                    field[row][col] = token;
+
+                    safeField[row][col] = token;
 
                     return [{
                         space: [row, col],
@@ -136,12 +149,19 @@ var Renderer = (function() {
                     }];
 
                 case 'victory':
+                    if (!act.victoryLine) {
+                        return [];
+                    }
+
+                    var victor = act.victor;
                     var victoryLine = act.victoryLine; 
                     var animations = [];
 
                     victoryLine.forEach(function(space) {
                         var row = space[0];
                         var col = space[1];
+
+                        safeField[row][col] = victor*11;
 
                         animations.push({
                             space: [row, col],
