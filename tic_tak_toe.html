@@ -112,6 +112,7 @@
                     });
 
                     var actionDelta = currTime - lastActionMade;
+
                     if (actions.length !== 0 && actionDelta > 500) {
                         var action = actions.shift();
 
@@ -119,7 +120,8 @@
                             var act = action.get();
                             var result = act.result;
 
-                            if(result !== 'victory') {
+                            switch(result) {
+                                case 'ongoing':
                                 var row = act.space[0];
                                 var col = act.space[1];
                                 var token = act.token;
@@ -130,8 +132,9 @@
                                     length : 200,
                                     onEnd: function() {}
                                 });
-                            }
-                            else {
+                                break;
+
+                                case 'victory':
                                 var winningLine = act.victoryLine; 
 
                                 winningLine.forEach(function(space) {
@@ -150,6 +153,7 @@
                                         onEnd: function() {}
                                     });
                                 });
+                                break;
 
                             }
                             lastActionMade = currTime;
