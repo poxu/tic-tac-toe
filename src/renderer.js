@@ -116,6 +116,48 @@ var Renderer = (function() {
             
         };
 
+        ren.actionToAnimations = function(act) {
+            var result = act.result;
+
+            switch(result) {
+                case 'ongoing':
+                    var row = act.space[0];
+                    var col = act.space[1];
+                    var token = act.token;
+                    field[row][col] = token;
+
+                    return [{
+                        space: [row, col],
+                        animation: Animation({
+                            type: 'move',
+                            length : 200,
+                            onEnd: function() {}
+                        })
+                    }];
+
+                case 'victory':
+                    var victoryLine = act.victoryLine; 
+                    var animations = [];
+
+                    victoryLine.forEach(function(space) {
+                        var row = space[0];
+                        var col = space[1];
+
+                        animations.push({
+                            space: [row, col],
+                            animation: Animation({
+                                type: 'color',
+                                length : 200,
+                                onEnd: function() {}
+                            })
+                        });
+                    });
+
+                    return animations;
+
+            }
+        };
+
         return ren;
 
     };

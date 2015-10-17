@@ -115,50 +115,31 @@
 
                         if (action.isPresent()) {
                             var act = action.get();
-                            var result = act.result;
 
-                            switch(result) {
-                                case 'ongoing':
-                                    var row = act.space[0];
-                                    var col = act.space[1];
-                                    var token = act.token;
-                                    field[row][col] = token;
-
-                                    renderer.actions[row][col] = Animation({
-                                        type: 'move',
-                                        length : 200,
-                                        onEnd: function() {}
+                            if (act.result === 'victory') {
+                                game.getField().forEach(function(line, row) {
+                                    line.forEach(function(space, col) {
+                                        field[row][col] = space;
                                     });
-                                break;
-
-                                case 'victory':
-                                    var victoryLine = act.victoryLine; 
-
-                                    game.getField().forEach(function(line, row) {
-                                        line.forEach(function(space, col) {
-                                            field[row][col] = space;
-                                        });
-                                    });
-
-                                    victoryLine.forEach(function(space) {
-                                        var row = space[0];
-                                        var col = space[1];
-
-                                        renderer.actions[row][col] = Animation({
-                                            type: 'color',
-                                            length : 200,
-                                            onEnd: function() {}
-                                        });
-                                    });
-                                break;
-
+                                });
                             }
+
+                            var animations = renderer.actionToAnimations(action.get());
+
+                            animations.forEach(function(animation) {
+                                var row = animation.space[0];
+                                var col = animation.space[1];
+
+                                renderer.actions[row][col] = animation.animation;
+                            });
+
+
                             lastActionMade = currTime;
                         }
                     }
 
                     renderer.render(field);
-                    window.requestAnimationFrame(render);
+                    window.requestAnimationFrame(render, 1000/60);
                     lastTime = currTime;
                 };
 
