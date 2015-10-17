@@ -95,13 +95,10 @@
                     var delta = currTime - lastTime;
 
                     renderer.actions.forEach(function(line, row) {
-                        line.forEach(function(space, col) {
-                            if(space == null) {
-                                return;
-                            }
-
-                            var animation = space;
-                            
+                        line.filter(function(space) {
+                            return space !== null;
+                        })
+                        .forEach(function(animation, col) {
                             if(animation.inProgress()) {
                                 animation.tick(delta);
                             }
@@ -143,7 +140,7 @@
                                         });
                                     });
 
-                                    winningLine.forEach(function(space) {
+                                    victoryLine.forEach(function(space) {
                                         var row = space[0];
                                         var col = space[1];
 
