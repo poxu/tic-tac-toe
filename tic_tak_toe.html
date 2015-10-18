@@ -79,10 +79,10 @@
                     var delta = currTime - lastTime;
 
                     renderer.actions.forEach(function(line, row) {
-                        line.filter(function(space) {
-                            return space !== null;
-                        })
-                        .forEach(function(animation, col) {
+                        line.forEach(function(animation, col) {
+                            if (animation === null) {
+                                return;
+                            }
                             if(animation.inProgress()) {
                                 animation.tick(delta);
                             }
