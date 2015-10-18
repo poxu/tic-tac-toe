@@ -11,7 +11,6 @@
             var game = null;
             var actions = [];
 
-
             var resetField = function() {
                 renderer.reset();
 
@@ -25,8 +24,6 @@
 
                 game = TicTacToe();
                 var ai = RandomAI();
-
-
 
                 var interfaceDisabled = false;
                 canvas.addEventListener('mouseup', function(e) {
@@ -65,7 +62,6 @@
                             setTimeout(function() {
                                 var action = ai.move(game);
                                 actions = actions.concat(action);
-
 
                                 interfaceDisabled = false;
                             }, 300);
@@ -112,7 +108,6 @@
 
                                 renderer.actions[row][col] = animation.animation;
                             });
-
 
                             lastActionMade = currTime;
                         }
