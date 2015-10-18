@@ -3,6 +3,10 @@ var Action = (function() {
         var self = {};
 
         var clone = function(value) {
+            if (!value) {
+                return null;
+            }
+
             var props = [
                 'result',
                 'space',
@@ -22,7 +26,6 @@ var Action = (function() {
                 return prev;
             }, {});
 
-
             return result;
         };
 
@@ -30,7 +33,6 @@ var Action = (function() {
         if (inValue !== null) {
             value = clone(inValue);
         }
-
 
         self.get = function() {
             return clone(value);
