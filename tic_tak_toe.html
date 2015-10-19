@@ -8,36 +8,20 @@
         <script type="text/javascript" src="src/util.js"></script>
         <script type="text/javascript">
             var renderer;
-            var game = null;
-            var actions = [];
-
-            var resetField = function() {
-                renderer.reset();
-
-            };
+            var game;
+            var actions;
 
             window.addEventListener('load', function() {
                 var canvas = document.querySelector('canvas.viewport');
                 var ctx = canvas.getContext('2d');
                 renderer = Renderer(ctx);
+                actions = [];
                 var screenToWorld = util.getScreenToWorld(100, 15)
 
                 game = TicTacToe();
                 var ai = RandomAI();
 
-                var interfaceDisabled = false;
                 canvas.addEventListener('mouseup', function(e) {
-
-                    if (game.isOver()) {
-                        game = TicTacToe();
-                        resetField();
-                        return;
-
-                    }
-                    if (interfaceDisabled) {
-                        return;
-                    }
-
                     var coord = {
                         x : e.pageX - canvas.offsetLeft,
                         y : e.pageY - canvas.offsetTop
@@ -45,36 +29,39 @@
 
                     var space = screenToWorld(coord.x, coord.y);
 
-
-                    if (space !== null) {
-                        var row = space[0];
-                        var col = space[1];
-
-                        if (game.getField()[row][col] !== 0) {
-                            return;
-                        }
-
-                        var action = game.put([row, col]);
-                        actions = actions.concat(action);
-
-                        if (!game.isOver()) {
-                            interfaceDisabled = true;
-                            setTimeout(function() {
-                                var action = ai.move(game);
-                                actions = actions.concat(action);
-
-                                interfaceDisabled = false;
-                            }, 300);
-                        };
+                    if (game.isOver()) {
+                        game = TicTacToe();
+                        renderer = Renderer(ctx);
+                        actions = [];
+                        return;
                     }
+
+                    if (space === null) {
+                        return;
+                    }
+
+                    var row = space[0];
+                    var col = space[1];
+
+                    if (game.getField()[row][col] !== 0) {
+                        return;
+                    }
+
+                    var action = game.put([row, col]);
+                    actions = actions.concat(action);
+
+                    if (game.isOver()) {
+                        return;
+                    }
+
+                    var action = ai.move(game);
+                    actions = actions.concat(action);
                 });
-
-                var direction = -1;
-
 
                 var lastTime = new Date().getTime();
                 var lastActionMade = lastTime;
-                var render = function() {
+
+                var loop = function() {
                     var currTime = new Date().getTime();
                     var delta = currTime - lastTime;
 
@@ -97,7 +84,6 @@
                     if (actions.length !== 0 && actionDelta > 500) {
                         var action = actions.shift();
 
-
                         if (action.isPresent()) {
                             renderer.adoptAction(action.get());
 
@@ -106,12 +92,12 @@
                     }
 
                     renderer.render();
-                    window.requestAnimationFrame(render);
                     lastTime = currTime;
+
+                    window.requestAnimationFrame(loop);
                 };
 
-                window.requestAnimationFrame(render);
-
+                loop();
             });
         </script>
 	<style type="text/css">
