@@ -177,8 +177,20 @@ var Renderer = (function() {
 
             }
         };
+        
+        ren.adoptAction = function(act) {
+            var animations = ren.actionToAnimations(act);
+
+            animations.forEach(function(animation) {
+                var row = animation.space[0];
+                var col = animation.space[1];
+
+                ren.actions[row][col] = animation.animation;
+            });
+        };
 
         return ren;
 
     };
+
 }());

@@ -97,17 +97,9 @@
                     if (actions.length !== 0 && actionDelta > 500) {
                         var action = actions.shift();
 
+
                         if (action.isPresent()) {
-                            var act = action.get();
-
-                            var animations = renderer.actionToAnimations(action.get());
-
-                            animations.forEach(function(animation) {
-                                var row = animation.space[0];
-                                var col = animation.space[1];
-
-                                renderer.actions[row][col] = animation.animation;
-                            });
+                            renderer.adoptAction(action.get());
 
                             lastActionMade = currTime;
                         }
