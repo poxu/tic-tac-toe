@@ -19,8 +19,9 @@
                 actions = [];
                 game = TicTacToe();
                 var ai = RandomAI();
+                var aiTurn;
 
-                canvas.addEventListener('mouseup', function(e) {
+                var click = function(e) {
                     var coord = {
                         x : e.pageX - canvas.offsetLeft,
                         y : e.pageY - canvas.offsetTop
@@ -55,11 +56,19 @@
                         return;
                     }
 
-                    (function(game, ai) {
-                        var action = ai.move(game);
-                        actions = actions.concat(action);
-                    }(game, ai));
-                });
+                    canvas.removeEventListener('mouseup', click);
+
+                    setTimeout(aiTurn, 0);
+                };
+
+                aiTurn = function() {
+                    var action = ai.move(game);
+                    actions = actions.concat(action);
+                    canvas.addEventListener('mouseup', click);
+                };
+
+
+                canvas.addEventListener('mouseup', click);
 
                 var lastTime = new Date().getTime();
                 var lastActionMade = lastTime;
