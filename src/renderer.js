@@ -189,6 +189,22 @@ var Renderer = (function() {
             });
         };
 
+        ren.tick = function(interval) {
+            ren.actions.forEach(function(line, row) {
+                line.forEach(function(animation, col) {
+                    if (animation === null) {
+                        return;
+                    }
+                    if(animation.inProgress()) {
+                        animation.tick(interval);
+                    }
+                    else {
+                        ren.actions[row][col] = null;
+                    }
+                });
+            });
+        };
+
         return ren;
 
     };

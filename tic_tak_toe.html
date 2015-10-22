@@ -10,18 +10,18 @@
             var renderer;
             var game;
             var actions;
+            var screenToWorld = util.getScreenToWorld(100, 15)
 
             window.addEventListener('load', function() {
                 var canvas = document.querySelector('canvas.viewport');
                 var ctx = canvas.getContext('2d');
                 renderer = Renderer(ctx);
                 actions = [];
-                var screenToWorld = util.getScreenToWorld(100, 15)
-
                 game = TicTacToe();
                 var ai = RandomAI();
+                var aiTurn;
 
-                canvas.addEventListener('mouseup', function(e) {
+                var click = function(e) {
                     var coord = {
                         x : e.pageX - canvas.offsetLeft,
                         y : e.pageY - canvas.offsetTop
@@ -47,16 +47,28 @@
                         return;
                     }
 
-                    var action = game.put([row, col]);
-                    actions = actions.concat(action);
+                    (function(game, space) {
+                        var action = game.put(space);
+                        actions = actions.concat(action);
+                    }(game, [row, col]));
 
                     if (game.isOver()) {
                         return;
                     }
 
+                    canvas.removeEventListener('mouseup', click);
+
+                    setTimeout(aiTurn, 0);
+                };
+
+                aiTurn = function() {
                     var action = ai.move(game);
                     actions = actions.concat(action);
-                });
+                    canvas.addEventListener('mouseup', click);
+                };
+
+
+                canvas.addEventListener('mouseup', click);
 
                 var lastTime = new Date().getTime();
                 var lastActionMade = lastTime;
@@ -65,19 +77,7 @@
                     var currTime = new Date().getTime();
                     var delta = currTime - lastTime;
 
-                    renderer.actions.forEach(function(line, row) {
-                        line.forEach(function(animation, col) {
-                            if (animation === null) {
-                                return;
-                            }
-                            if(animation.inProgress()) {
-                                animation.tick(delta);
-                            }
-                            else {
-                                renderer.actions[row][col] = null;
-                            }
-                        });
-                    });
+                    renderer.tick(delta);
 
                     var actionDelta = currTime - lastActionMade;
 
