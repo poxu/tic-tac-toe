@@ -1,12 +1,12 @@
 {
-    "name": "js-cz",
+    "name": "tic-tac-toe",
     "devDependencies": {
         "jshint": "latest",
         "mocha": "latest",
         "expect.js" : "latest"
     },
     "scripts": {
-        "lint": "jshint src/counter.js",
-        "test": "mocha"
+        "test": "mocha",
+        "lint": "jshint src/**.js"
     }
 }
