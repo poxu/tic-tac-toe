@@ -10,8 +10,8 @@ describe('CanvasTicTacToe', function() {
             var canvasTicTacToe = CanvasTicTacToe(canvas);
         });
         it('should throw exception if canvas is not a square ', function() {
-            var canvas = {};
-            var canvasTicTacToe = CanvasTicTacToe(canvas);
+            var canvas = {width: 200, height: 300};
+            expect(function() {CanvasTicTacToe(canvas);}).to.throwError();
         });
     });
 });
