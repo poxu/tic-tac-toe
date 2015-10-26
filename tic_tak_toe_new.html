@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <script type="text/javascript" src="src/renderer.js"></script>
+        <script type="text/javascript" src="src/Action.js"></script>
+        <script type="text/javascript" src="src/Animation.js"></script>
+        <script type="text/javascript" src="src/TicTacToe.js"></script>
+        <script type="text/javascript" src="src/RandomAI.js"></script>
+        <script type="text/javascript" src="src/util.js"></script>
+        <script type="text/javascript" src="src/CanvasTicTacToe.js"></script>
+        <script type="text/javascript">
+
+            window.addEventListener('load', function() {
+
+                var canvas = document.querySelector('canvas.viewport');
+                var canvasTicTacToe = CanvasTicTacToe(canvas);
+            });
+        </script>
+	<style type="text/css">
+	.flex-container {
+		height: 96%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	</style>
+    </head>
+	<body class="flex-container">
+        <canvas class="viewport" width="345" height="345"></canvas>
+    </body>
+</html>
+

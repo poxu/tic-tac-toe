@@ -210,3 +210,8 @@ var Renderer = (function() {
     };
 
 }());
+
+if (typeof module !== 'undefined') {
+    module.exports = Renderer;
+}
+

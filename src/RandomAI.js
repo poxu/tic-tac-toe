@@ -43,3 +43,7 @@ var RandomAI = (function() {
         return that;
     };
 }());
+
+if (typeof module !== 'undefined') {
+    module.exports = {RandomAI : RandomAI};
+}
